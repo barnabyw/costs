@@ -1,12 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Sep 14 15:47:43 2024
+import seaborn as sns
+import pandas as pd
+import math
+import matplotlib.pyplot as plt
 
-@author: barnabywinser
-"""
-
-scenario = "tech cost parameters"
+input_folder = '/Users/barnabywinser/Library/CloudStorage/OneDrive-SharedLibraries-Rheenergise/Commercial - Documents/Cost Models/LCOS/Input parameters/'
 output_path = "/Users/barnabywinser/Library/CloudStorage/OneDrive-SharedLibraries-Rheenergise/Commercial - Documents/Opportunities/Sibanye Stillwater/Sibanye Stillwater SSW due diligence/LCOS analysis/"
 
 file = "Tech cost parameters - Ninja defaults.xlsx"
@@ -21,14 +18,9 @@ el_g = 0  # Electricity price escalator % p.a.
 graph = 'b'
 ya = 50
 yb = 400
-scenario = 'lcos'
+scenario = 'Sheet1'
 
-import seaborn as sns
-import pandas as pd
-import math
-import matplotlib.pyplot as plt
 
-input_folder = '/Users/barnabywinser/Library/CloudStorage/OneDrive-SharedLibraries-Rheenergise/Commercial - Documents/Cost Models/LCOS/Input parameters/'
 input_path = input_folder + file
 
 #define technology parameters as df
@@ -108,10 +100,10 @@ def calculate_lcos(t, technology_params):
     # Calculate present value of replacement costs (unchanged)
     Rep_disc = 0
     if C_p_rep + C_e_rep > 0:
-        Rep_disc = sum((1000 * C_p_rep * Cap_p_nom + C_e_rep * Cap_e_nom) / (1 + r) ** (T_con + k * T_rep) for k in range(1, int(R) + 1))
+        Rep_disc = sum((1000 * C_p_rep * Cap_p_nom + 1000 * C_e_rep * Cap_e_nom) / (1 + r) ** (T_con + k * T_rep) for k in range(1, int(R) + 1))
         fractional_R = R - int(R)
         if fractional_R > 0:
-            Rep_disc += fractional_R * (1000 * C_p_rep * Cap_p_nom + C_e_rep * Cap_e_nom) / (1 + r) ** (T_con + (int(R) + 1) * T_rep)
+            Rep_disc += fractional_R * (1000 * C_p_rep * Cap_p_nom + 1000 * C_e_rep * Cap_e_nom) / (1 + r) ** (T_con + (int(R) + 1) * T_rep)
 
     # Function to calculate Eout(n)
     def Eout(n):
