@@ -2,5 +2,4 @@ pandas
 seaborn
 matplotlib
 openpyxl
-math
 os
