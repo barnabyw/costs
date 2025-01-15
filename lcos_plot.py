@@ -3,12 +3,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 from functions import calculate_lcos
+import os
+
+# Get the current directory (where the script is located)
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Paths
-input_folder = '/Users/barnabywinser/Library/CloudStorage/OneDrive-SharedLibraries-Rheenergise/Commercial - Documents/Cost Models/LCOS/Input parameters/'
-output_path = "/Users/barnabywinser/Library/CloudStorage/OneDrive-SharedLibraries-Rheenergise/Commercial - Documents/Cost Models/LCOS/Results/"
-input_file = "HD Hydro - head heights"
-input_path = input_folder + input_file + ".xlsx"
+input_folder = os.path.join(base_dir, 'Input parameters')
+output_folder = os.path.join(base_dir, 'Results')
+input_file = "HD Hydro - head heights.xlsx"  # File name only
+input_path = os.path.join(input_folder, input_file)
+
+# Ensure output folder exists
+os.makedirs(output_folder, exist_ok=True)
+output_file = os.path.join(output_folder, "Results.csv")
 
 # Manually specify which columns to use from the data?
 manual = 'n'
@@ -63,7 +71,7 @@ for technology in df.columns:
 results_df = pd.DataFrame(results)
 
 # Save results
-results_df.to_csv(output_path + "Results.csv", index=False)
+results_df.to_csv(output_file, index=False)
 
 def plot_technology(technology, df, color_dict, palette=None, idx=None, bounds=False):
     """
@@ -124,9 +132,7 @@ plt.ylim(ya, yb)
 
 # Use tight layout and save
 plt.tight_layout(rect=[0, 0, 1, 1.01])
-plt.savefig(output_path + input_file + "_" + sheet, dpi=300)
+plt.savefig(os.path.join(output_folder, f"{input_file}_{sheet}.png"), dpi=300)
 
 # Show the plot
 plt.show()
-
-pip freeze > requirements.txt
