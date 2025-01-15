@@ -12,10 +12,15 @@ This tool calculates and plots the Levelised Cost of Storage (LCOS) for various 
 git clone https://github.com/barnabyw/costs
 cd costs
 
-2. Set up a virtual environment (optional but recommended)
+Running:
+cd /path/to/your/desired/location   # On macOS/Linux
+cd C:\path\to\your\desired\location # On Windows
+Will specify where the repository is cloned on your computer
+
+3. Set up a virtual environment (optional but recommended)
 python3 -m venv venv
 source venv/bin/activate  # On macOS/Linux
 venv\Scripts\activate     # On Windows
 
-3. Install dependencies
+4. Install dependencies
 pip install -r requirements.txt
