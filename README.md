@@ -7,7 +7,7 @@ This tool calculates and plots the Levelised Cost of Storage (LCOS) for various 
 - Python 3.8+
 - Required libraries: `pandas`, `seaborn`, `matplotlib`, `openpyxl`
 
-# Steps
+## Steps
 1. Clone the repository
 git clone https://github.com/barnabyw/costs
 cd costs
