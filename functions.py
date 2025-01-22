@@ -2,24 +2,24 @@ import math
 
 # Define function for LCOS
 def calculate_lcos(t, technology, df, Cap_p_nom, Cyc_pa, P_el):
-    C_p_inv = df.loc['Power CAPEX', technology]
-    C_e_inv = df.loc['Energy CAPEX', technology]
-    C_p_om = df.loc['Power OPEX', technology]
-    C_e_om = df.loc['Energy OPEX', technology]
-    C_p_eol = df.loc['Power EoL cost', technology]
-    C_e_eol = df.loc['Energy EoL cost', technology]
-    C_p_rep = df.loc['Replacement Power', technology]
-    C_e_rep = df.loc['Replacement Energy', technology]
-    r = (df.loc['WACC', technology]) / 100
-    rt = (df.loc['Round-trip efficiency', technology]) / 100
-    DoD = (df.loc['DoD', technology]) / 100
-    n_self = (df.loc['Self-discharge', technology]) / 100
-    Life_cyc = df.loc['Lifetime 100% DoD', technology]
-    Cyc_rep = df.loc['Replacement interval', technology]
-    Deg_t = (df.loc['Temporal degradation', technology]) / 100
-    EoL = (df.loc['EoL threshold', technology]) / 100
-    T_con = int(df.loc['Pre-dev + construction', technology])
-    N_op1 = df.loc['Economic Life', technology]
+    C_p_inv = df.loc['Power CAPEX ($/kWcap)', technology]
+    C_e_inv = df.loc['Energy CAPEX ($/kWhcap)', technology]
+    C_p_om = df.loc['Power OPEX ($/kWcap)', technology]
+    C_e_om = df.loc['Energy OPEX ($/MWh discharged)', technology]
+    C_p_rep = df.loc['Replacement Power ($/kWcap)', technology]
+    C_e_rep = df.loc['Replacement Energy ($/kWhcap)', technology]
+    C_p_eol = df.loc['Power EoL cost ($/kWcap)', technology]
+    C_e_eol = df.loc['Energy EoL cost ($/kWhcap)', technology]
+    Cyc_rep = df.loc['Replacement interval (cycles)', technology]
+    r = df.loc['Discount rate (%)', technology] / 100
+    rt = df.loc['Round-trip efficiency (%)', technology] / 100
+    n_self = df.loc['Self-discharge (% of energy capacity)', technology] / 100
+    Life_cyc = df.loc['Lifetime at 100% DoD (cycles)', technology]
+    DoD = df.loc['Depth of Discharge (%)', technology] / 100
+    Deg_t = df.loc['Temporal degradation (% per annum)', technology] / 100
+    EoL = df.loc['EoL threshold (% of capacity)', technology] / 100
+    T_con = int(df.loc['Pre-dev + construction (years)', technology])
+    N_op1 = df.loc['Economic Life (years)', technology]
 
     # Intermediate calculations
     Cap_e_nom = Cap_p_nom * t  # Energy capacity MWh
@@ -72,20 +72,20 @@ def calculate_lcos(t, technology, df, Cap_p_nom, Cyc_pa, P_el):
     numerator = Total_CAPEX + Rep_disc + total_charge_cost + total_om_cost + Total_EoL
     LCOS = numerator / total_eout if total_eout > 0 else None
 
-    # Return a dictionary with all values
+    # Return a dictionary with all values rounded to 2 decimal places
     return {
-        'CAPEX': Total_CAPEX/total_eout,
-        'Replacement': Rep_disc/total_eout,
-        'Charging': total_charge_cost/total_eout,
-        'Energy discharged': total_eout,
-        'O&M': total_om_cost/total_eout,
-        'End of life': Total_EoL/total_eout,
-        'LCOS': LCOS
+        'CAPEX': round(Total_CAPEX / total_eout, 2),
+        'Replacement': round(Rep_disc / total_eout, 2),
+        'Charging': round(total_charge_cost / total_eout, 2),
+        'Energy discharged': round(total_eout, 2),
+        'O&M': round(total_om_cost / total_eout, 2),
+        'End of life': round(Total_EoL / total_eout, 2),
+        'LCOS': round(LCOS, 2)
     }
 
 
 # Function for LCOE (unchanged)
-def calculate_lcoe(t, technology_params, technology, df2):
+def calculate_lcoe(t, technology, df2):
     capex = df2.loc['CAPEX', technology]
     om_fix = df2.loc['Fixed O&M', technology]
     om_var = df2.loc['Variable O&M', technology]
