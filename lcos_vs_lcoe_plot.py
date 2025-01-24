@@ -17,7 +17,6 @@ input_path = os.path.join(input_folder, input_file)
 # Ensure output folder exists
 os.makedirs(output_folder, exist_ok=True)
 output_file = os.path.join(output_folder, "Graph results.csv")
-output_file_2 = os.path.join(output_folder, "Results broken down.csv")
 
 # Manually specify which columns to use from the data?
 manual = 'y'
